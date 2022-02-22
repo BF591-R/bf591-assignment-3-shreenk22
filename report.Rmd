@@ -73,35 +73,36 @@ above.__
 ```{r code block to transpose, scale data and perform PCA}
 pca_results <- prcomp(scale(t(intensity)), center=FALSE, scale=FALSE)
 summary(pca_results)
-```
+
 
 ## 2. Calculating the variance explained by Principal Components
-Now that we have performed PCA, we are interested in the proportion of variance
-explained by each principal component. This can be determined by dividing the
-variance of each PC by the sum total of the variance of all PCs.
+# Now that we have performed PCA, we are interested in the proportion of variance
+# explained by each principal component. This can be determined by dividing the
+# variance of each PC by the sum total of the variance of all PCs.
+# 
+# __Write a function, `calculate_variance_explained`, that calculates the
+# proportion of variance explained by each principal component from the
+# `pca_results` object and returns a *vector* of those values below.__
+# 
+# *Hint*: The standard deviation values of each PC may be accessed by
+# pca_results$sdev. Remember the relationship between standard deviation and
+# variance.
 
-__Write a function, `calculate_variance_explained`, that calculates the
-proportion of variance explained by each principal component from the
-`pca_results` object and returns a *vector* of those values below.__
-
-*Hint*: The standard deviation values of each PC may be accessed by
-pca_results$sdev. Remember the relationship between standard deviation and
-variance.
-
-```{r code block to calculate variance}
+# ```{r code block to calculate variance}
 pc_variance_explained <- calculate_variance_explained(pca_results)
 pc_variance_explained
-```
+
 
 ## 3. Make a tibble with variance explained and cumulative variance explained for the PCs
-__Using the vector of variance explained values you just generated,
-`pc_variance_explained`, write a function, `make_variance_tibble`, that uses
-this vector along with the `pca_results` object to construct a *tibble* with
-three columns containing the name of each PC, the variance explained by each PC,
-and the cumulative sum of variance explained. Return the first five rows
-below.__
+# __Using the vector of variance explained values you just generated,
+# `pc_variance_explained`, write a function, `make_variance_tibble`, that uses
+# this vector along with the `pca_results` object to construct a *tibble* with
+# three columns containing the name of each PC, the variance explained by each PC,
+# and the cumulative sum of variance explained. Return the first five rows
+# below.__
 
-```{r code block to construct a tibble with PCs, variance explained, and cumulative variance explained}
+#```{r code block to construct a tibble with PCs, variance explained, and cumulative variance explained}
+
 variance_tibble <- make_variance_tibble(pc_variance_explained, pca_results)
 head(variance_tibble, 5)
 ```
@@ -119,9 +120,9 @@ figures. Until you've completed all the parts, you may safely leave these
 captions blank.
 
 ```{r code block to create descriptive captions}
-caption_4 <- 'Descriptive Caption for part 4 here'
-caption_5 <- 'Descriptive Caption for part 5 here'
-caption_8 <- 'Descriptive Caption for part 8 here'
+caption_4 <- 'The distribution of total variances by Principal components '
+caption_5 <- 'The distributions of first two principal components of the data sets.'
+caption_8 <- 'Heatmap of gene expression values across different samples'
 ```
 
 ## 4. Plot the variance explained and cumulative variance for the PCs
@@ -139,7 +140,8 @@ automatically sorted differently. Please refer to discussions on lexicographical
 ordering vs. numeric ordering.
 
 ```{r, code block to plot variance explained and cumulative variance explained, fig.cap = caption_4}
-plot_pca_variance(variance_tibble)
+plot_pca_variance(variance_tibble,fig.cap = caption_4)
+
 ```
 
 
@@ -161,7 +163,8 @@ variance, visually interpreting these plots requires care as the scale of the
 'importance' of the axes differ. 
 
 ```{r code block to make a biplot of PC1 and PC2, message = FALSE, fig.cap = caption_5}
-make_biplot('proj_metadata.csv', pca_results)
+make_biplot('proj_metadata.csv', pca_results,fig.cap = caption_5)
+
 ```
 
 ## 6. Filter the differential_expression_results.csv for significant probes
@@ -225,6 +228,6 @@ in-depth into these topics, and you will run `heatmap()` with default options
 besides `col`.
 
 ```{r code block to plot heatmap of normalized intensity values for DE probes, fig.cap = caption_8}
-plot_heatmap(de_intensity, 11, 'RdBu')
+plot_heatmap(de_intensity, 11, 'RdBu',fig.cap = caption_8)
 ```
 
